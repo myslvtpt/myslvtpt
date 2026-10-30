@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>SLV Tours & Travels | Dashboard</title>
+<style>
+:root{--navy:#102b3f;--teal:#12a99a;--paper:#f4f8f7;--line:#dfe9e6;--muted:#637581;--ink:#1c2e39}*{box-sizing:border-box}body{margin:0;background:var(--paper);font:15px/1.55 Inter,system-ui,sans-serif;color:var(--ink)}button,input{font:inherit}.wrap{width:min(1080px,calc(100% - 32px));margin:48px auto}.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 16px 45px #102b3f0c}h1,h2,h3{color:var(--navy);letter-spacing:-.035em}h1{font-size:2rem;margin:0 0 6px}.muted{color:var(--muted)}label{display:block;font-weight:750;margin:16px 0 6px}input{width:100%;padding:13px;border:1px solid var(--line);border-radius:11px}.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:999px;background:var(--teal);color:white;padding:12px 19px;font-weight:800;cursor:pointer;text-decoration:none}.btn.dark{background:var(--navy)}.hidden{display:none!important}.message{color:#a33b3b;font-weight:700;margin-top:12px;min-height:22px}.head{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:28px}.brand{font-weight:850;color:var(--navy);font-size:1.05rem}.brand span{display:inline-grid;place-items:center;background:var(--teal);color:white;width:42px;height:42px;border-radius:13px;margin-right:10px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.tile{background:white;border:1px solid var(--line);border-radius:18px;padding:24px}.tile .ico{font-size:1.7rem}.tile h2{font-size:1.15rem;margin:10px 0 5px}.tile p{color:var(--muted);margin:0 0 17px}.note{background:#e8f5f1;border-radius:14px;padding:16px;color:#315b55;margin-top:22px;font-size:.9rem}.footer{margin-top:22px;color:var(--muted);font-size:.85rem}@media(max-width:620px){.wrap{margin:20px auto}.panel{padding:22px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main class="wrap">
+<section class="panel" id="loginPanel" style="max-width:440px;margin:8vh auto">
+<div class="brand"><span>SLV</span> SLV Tours & Travels</div>
+<h1 style="margin-top:28px">Dashboard login</h1><p class="muted">Sign in to manage your website tools.</p>
+<form id="loginForm"><label for="username">Username</label><input id="username" autocomplete="username" required><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required><p style="margin:22px 0 0"><button class="btn" type="submit">Sign in securely</button></p></form><div class="message" id="loginMessage" role="status"></div>
+</section>
+<section id="dashboard" class="hidden">
+<header class="head"><div><div class="brand"><span>SLV</span> SLV Tours & Travels</div><h1 style="margin-top:20px">Business dashboard</h1><div class="muted">Your website management workspace</div></div><button class="btn dark" id="logout">Sign out</button></header>
+<div class="grid">
+<article class="tile"><div class="ico">🖼️</div><h2>Homepage banners</h2><p>Upload, preview and remove promotional carousel images.</p><a class="btn" href="/admin.html">Manage banners ↗</a></article>
+<article class="tile"><div class="ico">🌐</div><h2>View website</h2><p>Open the public SLV MICE travel information website.</p><a class="btn" href="/" target="_blank" rel="noopener">Open website ↗</a></article>
+<article class="tile"><div class="ico">📋</div><h2>MICE enquiry form</h2><p>Review the enquiry brief customers can prepare on the website. Form submissions are not yet stored online.</p><a class="btn dark" href="/#enquiry" target="_blank" rel="noopener">View enquiry form ↗</a></article>
+<article class="tile"><div class="ico">📊</div><h2>Analytics & leads</h2><p>Website visitor, enquiry, booking and revenue tracking can be connected in a later step.</p><span class="muted">Not connected yet</span></article>
+</div>
+<div class="note"><strong>Security note:</strong> Your requested login is currently username <strong>12345</strong> and password <strong>12345</strong>. This is a simple, easily guessed password. Change it before sharing dashboard access publicly.</div>
+<div class="footer">SLV Tours & Travels · MICE & corporate travel</div>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+async function api(url,options={}){const r=await fetch(url,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})}});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Request failed');return d}
+function showDashboard(){ $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');}
+async function checkSession(){try{const s=await api('/api/carousel/session');if(s.authenticated)showDashboard()}catch{}}
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();$('loginMessage').textContent='Signing in…';try{await api('/api/carousel/login',{method:'POST',body:JSON.stringify({username:$('username').value,password:$('password').value})});$('loginMessage').textContent='';showDashboard()}catch(err){$('loginMessage').textContent=err.message}});
+$('logout').addEventListener('click',async()=>{try{await api('/api/carousel/logout',{method:'POST',body:'{}'})}finally{$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('loginForm').reset()}});
+checkSession();
+</script></body></html>
