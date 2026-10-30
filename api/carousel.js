@@ -23,7 +23,7 @@ function setCookie(res, value, maxAge) {
 }
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
-  if (req.method === 'POST' && req.url?.split('?')[0] === '/api/carousel/login') {
+  if (req.method === 'POST' && req.body?.action === 'login') {
     const { username, password } = req.body || {};
     if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD || username !== process.env.ADMIN_USERNAME || password !== process.env.ADMIN_PASSWORD) {
       return res.status(401).json({ error: 'Invalid username or password' });
@@ -32,11 +32,11 @@ export default async function handler(req, res) {
     setCookie(res, expires + '.' + sign(expires), 8 * 60 * 60);
     return res.status(200).json({ ok: true });
   }
-  if (req.method === 'POST' && req.url?.split('?')[0] === '/api/carousel/logout') {
+  if (req.method === 'POST' && req.body?.action === 'logout') {
     setCookie(res, '', 0);
     return res.status(200).json({ ok: true });
   }
-  if (req.method === 'GET' && req.url?.split('?')[0] === '/api/carousel/session') {
+  if (req.method === 'GET' && new URL(req.url, 'https://local.invalid').searchParams.get('action') === 'session') {
     return res.status(200).json({ authenticated: validSession(req) });
   }
   if (req.method === 'GET') {
