@@ -2,7 +2,7 @@ import { list, put, del } from '@vercel/blob';
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
 const COOKIE = 'slv_admin';
-const MAX_BYTES = 4 * 1024 * 1024;
+const MAX_BYTES = 2.8 * 1024 * 1024;
 
 function sign(value) {
   return createHmac('sha256', process.env.SESSION_SECRET).update(value).digest('hex');
