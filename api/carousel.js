@@ -36,6 +36,9 @@ export default async function handler(req, res) {
     setCookie(res, '', 0);
     return res.status(200).json({ ok: true });
   }
+  if (req.method === 'GET' && req.url?.split('?')[0] === '/api/carousel/session') {
+    return res.status(200).json({ authenticated: validSession(req) });
+  }
   if (req.method === 'GET') {
     try {
       const result = await list({ prefix: 'carousel/' });
