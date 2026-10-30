@@ -12,6 +12,24 @@
     @media(max-width:900px){.hero-grid,.split,.contact-grid{grid-template-columns:1fr}.hero{padding-top:60px}.hero-art{min-height:340px}.cards{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr)}.cta{grid-template-columns:1fr}.cta .btn{justify-self:start}.split{gap:30px}.visual-panel{min-height:330px}.navlinks{gap:15px}}
     @media(max-width:650px){.wrap{width:min(100% - 28px,1160px)}.topbar .wrap{justify-content:center;text-align:center}.navinner{height:67px}.menu{display:block}.navlinks{display:none;position:absolute;top:67px;left:0;right:0;background:#fff;padding:20px;box-shadow:0 14px 25px #102b3f12;flex-direction:column;align-items:stretch}.navlinks.open{display:flex}.navlinks .btn{text-align:center}.hero{padding:52px 0 55px}h1{font-size:2.8rem}.hero-art{min-height:290px}.orbit{width:285px}.center-icon{width:112px;height:112px;font-size:3.2rem;border-radius:28px}.fc1{right:-5px;top:22px}.fc2{left:-2px;bottom:25px}.fc3{right:-6px;bottom:70px}.float-card{padding:10px 12px;font-size:.75rem}.statsgrid{grid-template-columns:repeat(2,1fr);gap:18px}.stat{padding:0 10px;border:0}.stat:first-child{padding-left:10px}.section{padding:60px 0}.cards,.destination-grid{grid-template-columns:1fr}.card{padding:22px}.destination{min-height:190px}.steps{grid-template-columns:1fr;gap:8px}.step{padding:15px 0}.step:before{font-size:1.5rem;margin-bottom:5px}.cta{padding:28px 23px}.form{grid-template-columns:1fr;padding:20px}.field.full,.form .btn,.form-message{grid-column:1}.footergrid{display:block}.footerlinks{margin-top:20px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+  
+    .hero-carousel{position:relative;min-height:390px;border-radius:26px;overflow:hidden;background:#173f55;box-shadow:0 24px 60px #061b2b55}
+    .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .65s ease;pointer-events:none}
+    .hero-slide.active{opacity:1;pointer-events:auto}
+    .hero-slide img{width:100%;height:100%;min-height:390px;object-fit:cover;display:block}
+    .hero-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#071b2acc,transparent 65%)}
+    .hero-caption{position:absolute;z-index:1;left:26px;right:26px;bottom:26px;color:white}
+    .hero-caption strong{display:block;font-size:1.45rem;line-height:1.2}
+    .hero-caption span{display:block;color:#e1eeee;font-size:.9rem;margin-top:7px}
+    .carousel-controls{position:absolute;z-index:3;left:18px;right:18px;top:50%;display:flex;justify-content:space-between;transform:translateY(-50%);pointer-events:none}
+    .carousel-controls button{pointer-events:auto;border:1px solid #ffffff70;background:#102b3fbb;color:white;width:42px;height:42px;border-radius:50%;font-size:1.2rem;cursor:pointer}
+    .carousel-dots{position:absolute;z-index:3;bottom:14px;right:26px;display:flex;gap:7px}
+    .carousel-dots button{width:8px;height:8px;padding:0;border:0;border-radius:20px;background:#ffffff80;cursor:pointer}
+    .carousel-dots button.active{width:22px;background:white}
+    .carousel-empty{height:390px;display:grid;place-items:center;text-align:center;padding:28px;color:#d8e8eb}
+    .admin-link{position:absolute;z-index:4;top:14px;right:14px;border-radius:99px;padding:7px 12px;background:#102b3fbb;color:white;font-size:.75rem}
+    @media(max-width:650px){.hero-carousel,.hero-slide img,.carousel-empty{min-height:290px}.hero-slide img{height:290px}.hero-caption{left:18px;bottom:28px}.hero-caption strong{font-size:1.15rem}}
+
   </style>
 </head>
 <body>
@@ -24,7 +42,12 @@
   <main>
     <section class="hero" id="home"><div class="wrap hero-grid">
       <div><div class="eyebrow">Corporate travel made purposeful</div><h1>Bring people together. <span>Make it count.</span></h1><p>Your practical guide to MICE travel—meetings, incentive trips, conferences and exhibitions. Discover the formats, planning essentials and destination ideas that help business events run smoothly.</p><div class="hero-actions"><a class="btn" href="#services">Explore MICE services <span>→</span></a><a class="btn light" href="#planning">View planning guide</a></div><div class="trust"><span>Business-focused experiences</span><span>End-to-end planning support</span></div></div>
-      <div class="hero-art" aria-label="Illustration representing business events"><div class="orbit"><div class="center-icon">🤝</div><div class="float-card fc1">MEETINGS<span>Ideas into action</span></div><div class="float-card fc2">INCENTIVES<span>Reward great work</span></div><div class="float-card fc3">MICE ✦</div></div></div>
+      <div class="hero-carousel" id="heroCarousel" aria-label="SLV Tours and Travels promotional carousel">
+        <a class="admin-link" href="/admin.html">Admin</a>
+        <div class="carousel-empty" id="carouselEmpty"><div><div style="font-size:3rem">✦</div><strong>SLV Tours & Travels</strong><br><span>Meetings · Incentives · Conferences · Exhibitions</span><p style="font-size:.8rem">Promotional slides will appear here</p></div></div>
+        <div class="carousel-controls" id="carouselControls" hidden><button type="button" id="carouselPrev" aria-label="Previous slide">‹</button><button type="button" id="carouselNext" aria-label="Next slide">›</button></div>
+        <div class="carousel-dots" id="carouselDots"></div>
+      </div>
     </div></section>
     <section class="stats"><div class="wrap statsgrid"><div class="stat"><b>Meetings</b><span>Align teams and decisions</span></div><div class="stat"><b>Incentives</b><span>Recognise achievement</span></div><div class="stat"><b>Conferences</b><span>Share knowledge at scale</span></div><div class="stat"><b>Exhibitions</b><span>Showcase ideas and products</span></div></div></section>
     <section class="section" id="what-is-mice"><div class="wrap"><div class="section-head center"><div class="kicker">MICE, explained</div><h2>Four ways to make business travel work harder</h2><p>MICE is a specialised part of business tourism that brings teams, customers, partners and industries together for a clear purpose.</p></div>
@@ -77,6 +100,38 @@
     menuButton.addEventListener('click',()=>{const open=navLinks.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open));menuButton.textContent=open?'×':'☰';});
     navLinks.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{navLinks.classList.remove('open');menuButton.setAttribute('aria-expanded','false');menuButton.textContent='☰';}));
     document.getElementById('year').textContent=new Date().getFullYear();
+
+    const heroCarousel=document.getElementById('heroCarousel');
+    if(heroCarousel){
+      let heroSlides=[],heroIndex=0,heroTimer;
+      const empty=document.getElementById('carouselEmpty'),controls=document.getElementById('carouselControls'),dots=document.getElementById('carouselDots');
+      function showHeroSlide(index){
+        if(!heroSlides.length)return;
+        heroIndex=(index+heroSlides.length)%heroSlides.length;
+        heroCarousel.querySelectorAll('.hero-slide').forEach((el,i)=>el.classList.toggle('active',i===heroIndex));
+        dots.querySelectorAll('button').forEach((el,i)=>el.classList.toggle('active',i===heroIndex));
+      }
+      function startHeroTimer(){clearInterval(heroTimer);if(heroSlides.length>1)heroTimer=setInterval(()=>showHeroSlide(heroIndex+1),5000);}
+      fetch('/api/carousel').then(r=>r.ok?r.json():{slides:[]}).then(data=>{
+        heroSlides=data.slides||[];
+        if(!heroSlides.length)return;
+        empty.hidden=true;controls.hidden=heroSlides.length<2;
+        heroSlides.forEach((slide,i)=>{
+          const article=document.createElement('article');article.className='hero-slide'+(i===0?' active':'');
+          const img=document.createElement('img');img.src=slide.url;img.alt=slide.title||'SLV Tours and Travels event';img.loading=i===0?'eager':'lazy';
+          const caption=document.createElement('div');caption.className='hero-caption';
+          const title=document.createElement('strong');title.textContent=slide.title||'SLV Tours & Travels';
+          const desc=document.createElement('span');desc.textContent=slide.description||'Corporate travel and MICE experiences';
+          caption.append(title,desc);article.append(img,caption);heroCarousel.insertBefore(article,controls);
+          const dot=document.createElement('button');dot.type='button';dot.setAttribute('aria-label','Show slide '+(i+1));dot.addEventListener('click',()=>{showHeroSlide(i);startHeroTimer();});dots.append(dot);
+        });
+        showHeroSlide(0);startHeroTimer();
+      }).catch(()=>{});
+      document.getElementById('carouselPrev').addEventListener('click',()=>{showHeroSlide(heroIndex-1);startHeroTimer();});
+      document.getElementById('carouselNext').addEventListener('click',()=>{showHeroSlide(heroIndex+1);startHeroTimer();});
+      heroCarousel.addEventListener('mouseenter',()=>clearInterval(heroTimer));heroCarousel.addEventListener('mouseleave',startHeroTimer);
+    }
+
     const form=document.getElementById('enquiryForm');
     form.addEventListener('submit',event=>{event.preventDefault();if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form).entries());const brief=['SLV TOURS & TRAVELS — MICE EVENT BRIEF','',...Object.entries(data).map(([key,value])=>key.replace(/([A-Z])/g,' $1').replace(/^./,c=>c.toUpperCase())+': '+(value||'Not provided'))].join('\n');const blob=new Blob([brief],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='slv-mice-event-brief.txt';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);const message=document.getElementById('formMessage');message.textContent='Your event brief has been downloaded as a text file. Please share it with SLV Tours & Travels through your preferred contact channel. This form does not transmit data online.';message.style.display='block';});
   </script>
